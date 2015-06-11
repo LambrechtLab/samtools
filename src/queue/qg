@@ -1,0 +1,5 @@
+USERS=`mygroup | sed -e 's/ /,/g'`
+#echo $USERS
+  
+
+qstat -u $USERS 

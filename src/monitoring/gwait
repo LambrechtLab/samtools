@@ -1,0 +1,27 @@
+# Logs the number of running & queued jobs for all members of the group
+
+. $HOME/.bashrc
+#export PATH=$PATH:$HOME/bin
+#module load queue
+
+Nqueued=`qg | grep -c " Q "`
+Nrunning=`qg | grep -c " R "`
+
+q_cores=`qg | grep " Q " | gawk '{print $7;}'`
+q_cores=`echo $q_cores | sed -e "s/ / + /g"`
+#echo $q_cores
+let "Cqueued = $q_cores"
+#echo $Cqueued
+
+r_cores=`qg | grep " R " | gawk '{print $7;}'`
+r_cores=`echo $r_cores | sed -e "s/ / + /g"`
+#echo $r_cores
+let "Crunning = $r_cores"
+#echo $Crunning
+
+date=`date +'%s %Y/%m/%d %H:%M:%S'`
+echo $date $HOSTNAME $Nqueued $Nrunning $Cqueued $Crunning
+#echo "Jobs:    #queued = $Nqueued   #running = $Nrunning"
+#echo "Cores:   #queued = $Cqueued   #running = $Crunning"
+#echo
+~             

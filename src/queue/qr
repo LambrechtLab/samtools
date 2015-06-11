@@ -1,0 +1,22 @@
+# Prints user's running/queued/completed jobs
+
+# Count number of jobs running/queued/completed:
+JRUN=`qstat -u $USER -n | grep -c " R "`
+JQUEUED=`qstat -u $USER -n | grep -c " Q "`
+JCOMPLETED=`qstat -u $USER -n | grep -c " C "`
+
+# Count number of cores running/queued/completed:
+crun=`qstat -u $USER -n | grep " R " | gawk '{print $7;}'`
+crun=`echo $crun | sed -e "s/ / + /g"`
+cqueued=`qstat -u $USER -n | grep " Q " | gawk '{print $7;}'`
+cqueued=`echo $cqueued | sed -e "s/ / + /g"`
+ccompleted=`qstat -u $USER -n | grep -c " C " | gawk '{print $7;}'`
+ccompleted=`echo $ccompleted | sed -e "s/ / + /g"`
+
+let "CRUN = crun"
+let "CQUEUED = cqueued"
+let "CCOMPLETED = ccompleted"
+
+printf 'Running:     %4d jobs   %4d cores\n' $JRUN $CRUN 
+printf 'Queued:      %4d jobs   %4d cores\n' $JQUEUED $CQUEUED 
+printf 'Completed:   %4d jobs   %4d cores\n' $JCOMPLETED $CCOMPLETED 

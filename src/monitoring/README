@@ -1,0 +1,8 @@
+Monitors cluster usage stats (running / queued jobs) for a group of users.
+
+How to Install
+--------------
+
+Enable the monitor by adding the following line to your crontab:
+
+5,15,25,35,45,55 * * * *   ~/bin/gwait >> ~/cluster_log/usage_log.txt

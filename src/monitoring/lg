@@ -1,0 +1,5 @@
+USERS=`mygroup`
+  
+for name in $USERS; do
+  last | grep $name
+done

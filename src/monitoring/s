@@ -1,0 +1,7 @@
+#!/bin/bash
+
+JOBS=`qstat -u $USER | grep $USER | awk '{print $1;}'`
+
+for j in $JOBS; do
+  showstart -f $j
+done

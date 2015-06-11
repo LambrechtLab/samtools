@@ -1,0 +1,13 @@
+if [ "$#" -ne 1 ]; then
+  USERS=`ls $HOME/..`
+  USERS=${USERS/software/}
+else
+  USERS=`ls $1`
+fi
+
+#for name in $USERS; do
+#  echo -n "$name "
+#done
+#echo
+
+echo $USERS

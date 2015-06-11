@@ -1,0 +1,30 @@
+# Prints number of running/completed/queued jobs for all users in a research
+# group.
+#
+# Default: 
+#   Print information for the calling user's group.
+# Optional argument: 
+#   Path to a group's home directory -> print information for this group
+
+export USERS=`mygroup $1 | sed -e 's/ /,/g'`
+
+# Count number of jobs running/queued/completed:
+JRUN=`qstat -u $USERS -n | grep -c " R "`
+JQUEUED=`qstat -u $USERS -n | grep -c " Q "`
+JCOMPLETED=`qstat -u $USERS -n | grep -c " C "`
+
+# Count number of cores running/queued/completed:
+crun=`qstat -u $USERS -n | grep " R " | gawk '{print $7;}'`
+crun=`echo $crun | sed -e "s/ / + /g"`
+cqueued=`qstat -u $USERS -n | grep " Q " | gawk '{print $7;}'`
+cqueued=`echo $cqueued | sed -e "s/ / + /g"`
+ccompleted=`qstat -u $USERS -n | grep -c " C " | gawk '{print $7;}'`
+ccompleted=`echo $ccompleted | sed -e "s/ / + /g"`
+
+let "CRUN = crun"
+let "CQUEUED = cqueued"
+let "CCOMPLETED = ccompleted"
+
+printf 'Running:     %6d jobs   %6d cores\n' $JRUN $CRUN 
+printf 'Queued:      %6d jobs   %6d cores\n' $JQUEUED $CQUEUED 
+printf 'Completed:   %6d jobs   %6d cores\n' $JCOMPLETED $CCOMPLETED 

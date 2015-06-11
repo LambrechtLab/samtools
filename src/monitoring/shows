@@ -1,0 +1,3 @@
+for job in `qstat -u $USER | grep "clusman0" | awk '{print $1;}'`; do
+  showstart $job
+done
